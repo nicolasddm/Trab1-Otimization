@@ -65,13 +65,17 @@ for i in range(0, numMachines):
 
 result = linprog(c = machsCosts, A_ub=A_ineq, b_ub=B_ineq, A_eq=A_eq, b_eq=B_eq, bounds=(0, None), method='simplex')
 
-y=0
-for machine in eachMachTasks:
-  for task in range(0, numTasks):
-    if task+1 in machine:
-      print(float(result.x[y]), end=" ")
-      y += 1
-    else:
-      print(float(0), end=" ")
-  print('')
-print(float(result.fun))
+if result.success:
+  y=0
+  for machine in eachMachTasks:
+    for task in range(0, numTasks):
+      if task+1 in machine:
+        print(float(result.x[y]), end=" ")
+        y += 1
+      else:
+        print(float(0), end=" ")
+    print('')
+  print(float(result.fun))
+
+else: 
+  print(result.message)
